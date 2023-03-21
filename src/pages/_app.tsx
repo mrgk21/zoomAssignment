@@ -1,9 +1,17 @@
 import type { AppProps } from "next/app";
-
+import { useMemo, useState } from "react";
+import { GlobalContext } from "../contexts/global.context";
 import "../global.css";
 
 const App = ({ Component, pageProps }: AppProps) => {
-	return <Component {...pageProps} />;
+	const [token, setToken] = useState("");
+	const value = useMemo(() => ({ token, setToken }), []);
+
+	return (
+		<GlobalContext.Provider value={value}>
+			<Component {...pageProps} />;
+		</GlobalContext.Provider>
+	);
 };
 
 export default App;

@@ -47,6 +47,7 @@
 		],
 		"indent": ["error", "tab", { "SwitchCase": 1 }],
 		"quotes": ["error", "double", { "allowTemplateLiterals": true }],
-		"no-tabs": "off"
+		"no-tabs": "off",
+		"@typescript-eslint/ban-ts-comment": "off"
 	}
 }
