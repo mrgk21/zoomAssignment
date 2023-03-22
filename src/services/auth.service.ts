@@ -35,35 +35,25 @@ import KJUR from "jsrsasign";
 
 // https://www.npmjs.com/package/jsrsasign
 
-export function generateSignature(
-	sdkKey: string,
-	sdkSecret: string,
-	sessionName: string,
-	role: number,
-	sessionKey: string,
-	userIdentity: string,
-	password: string,
-) {
+export function generateSignature(sdkKey: string, meetingNum: string, role: number) {
 	const iat = Math.round(new Date().getTime() / 1000) - 30;
-	const exp = iat + 60 * 60 * 48; // max limit of 48 hour exp
+	const exp = iat + 60 * 60 * 1; // max limit of 48 hour exp
 	const oHeader = { alg: "HS256", typ: "JWT" };
 
 	const oPayload = {
-		app_key: sdkKey,
-		tpc: sessionName,
+		sdkKey, //swap if needed
+		appKey: sdkKey,
+		mn: parseInt(meetingNum),
 		role_type: role,
-		session_key: sessionKey,
-		user_identity: userIdentity,
-		version: 1,
-		iat: iat,
-		exp: exp,
-		password,
+		iat,
+		exp,
+		tokenExp: exp,
 	};
 
 	const sHeader = JSON.stringify(oHeader);
 	const sPayload = JSON.stringify(oPayload);
 
 	// @ts-ignore
-	const sdkJWT = KJUR.jws.JWS.sign("HS256", sHeader, sPayload, sdkSecret);
+	const sdkJWT = KJUR.jws.JWS.sign("HS256", sHeader, sPayload, process.env.NEXT_PUBLIC_ZOOM_CLIENT_SECRET as string);
 	return sdkJWT;
 }

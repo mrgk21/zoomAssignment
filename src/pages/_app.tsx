@@ -5,11 +5,11 @@ import "../global.css";
 
 const App = ({ Component, pageProps }: AppProps) => {
 	const [token, setToken] = useState("");
-	const value = useMemo(() => ({ token, setToken }), []);
+	const value = useMemo(() => ({ token, setToken }), [token]);
 
 	return (
 		<GlobalContext.Provider value={value}>
-			<Component {...pageProps} />;
+			<Component {...pageProps} />
 		</GlobalContext.Provider>
 	);
 };

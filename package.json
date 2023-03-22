@@ -43,7 +43,7 @@
 		"linux"
 	],
 	"dependencies": {
-		"@zoom/videosdk": "^1.6.2",
+		"@zoomus/websdk": "^2.10.1",
 		"axios": "^1.3.4",
 		"jsrsasign": "^10.7.0",
 		"next": "^13.2.4",

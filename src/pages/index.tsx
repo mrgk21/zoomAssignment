@@ -1,25 +1,49 @@
+import axios from "axios";
+import { GetServerSideProps } from "next";
 import dynamic from "next/dynamic";
-import Link from "next/link";
+import { useContext, useEffect } from "react";
+import { GlobalContext } from "../contexts/global.context";
 
 const VideoTest = dynamic(() => import("../components/videoTest"), {
 	ssr: false,
 	loading: () => <p>Loading...</p>,
 });
 
-const Home = () => {
+interface ServerProps {
+	token: string | null;
+}
+
+const Home = ({ token }: ServerProps) => {
+	const { setToken } = useContext(GlobalContext);
+
+	useEffect(() => {
+		if (token) setToken(token);
+	}, [token]);
+
 	return (
 		<div>
-			<button type="button">
-				<Link
-					href={`https://zoom.us/oauth/authorize?response_type=code&client_id=${process.env.NEXT_PUBLIC_ZOOM_CLIENT_ID}&redirect_uri=https://1210-2405-201-1005-38d5-59b0-1c47-cf54-a46a.in.ngrok.io/api/auth`}
-					target="_blank"
-				>
-					Click to sign into zoom
-				</Link>
-			</button>
+			<button type="button">Click to start the app</button>
 			<VideoTest />
 		</div>
 	);
 };
 
 export default Home;
+
+export const getServerSideProps: GetServerSideProps<ServerProps> = async () => {
+	let token = null;
+	try {
+		const { data } = await axios.get(
+			`https://api.zoom.us/v2/users/${process.env.NEXT_PUBLIC_USER_ID}/token?type=zak`,
+			{
+				headers: {
+					Authorization: `Bearer ${process.env.NEXT_PUBLIC_ZOOM_JWT}`,
+				},
+			},
+		);
+		token = data.token;
+	} catch (error) {
+		console.log(error);
+	}
+	return { props: { token } };
+};
