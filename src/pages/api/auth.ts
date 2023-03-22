@@ -24,7 +24,7 @@ async function getToken(code: string): Promise<string | undefined> {
 	const body = {
 		grant_type: "authorization_code", // to use authorization_code in the long run / temp ->
 		code,
-		redirect_uri: `http://localhost:3000/testing`,
+		redirect_uri: `${process.env.NEXT_PUBLIC_URL}/testing`,
 	};
 
 	const { data } = await axios.post("https://zoom.us/oauth/token", stringify(body), {
