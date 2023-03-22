@@ -22,7 +22,7 @@ async function getToken(code: string): Promise<string | undefined> {
 	).toString("base64");
 
 	const body = {
-		grant_type: "client_credentials", // to use authorization_code in the long run / temp -> client_
+		grant_type: "authorization_code", // to use authorization_code in the long run / temp ->
 		code,
 		redirect_uri: `http://localhost:3000/testing`,
 	};
