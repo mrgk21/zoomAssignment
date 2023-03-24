@@ -1,38 +1,25 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## Project Setup
 
-## Getting Started
+### Tools
 
-First, run the development server:
+-   `Prettier` for consistent code styling
+-   `Eslint` for solving linting issues and following set standards. Major packages used are `eslint-config-airbnb`, `eslint-config-prettier`, `@typescript-eslint`
+-   `Typescript` for type checking
+-   `Husky` for using git-hooks
+-   `Commitlint` for consistent commit message format, integrated with husky
+-   `Tailwind` as a styling library
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+## Project Progress
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+I went with using the zoom meeting SDK as it fit the use-case
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+### 1. Authentication
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+Instead of using a free SaaS solution, which might give errors during production, I decided to implement the OAuth using nextJS API router inside `/pages/api/auth.ts`. Instead of using a backend which would most probably have to be deployed using a seperate service as the frontend, I chose to use NextJSs inbuilt colocation for conveniently deploying a full stack on vercel.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+Problems during dev:
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
--   [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
--   [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+-   localhost does not work with zoom oauth, so needed to use ngrok for exposing local app
+-   Ran into `Invalid grant type` error while making `/oauth/token` POST request to the server for the access token. I followed the _user authentication_ part in the docs. Could not find a solution on the forums either. This seemed to be a refresh token error according to most posts.
+-   Explored other Apps such as JWT and OAuth for possible solutions for generating an access token with meeting SDK. Ran into the same problem with the OAuth App.
+-   JWT App worked with zoom API for generating my zoom account ZAK. The generated ZAK could not be used for starting meetings, giving the error `not support to start meeting via tokens`. The JWT code is in `jwt-auth` branch
