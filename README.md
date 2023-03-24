@@ -23,3 +23,7 @@ Problems during dev:
 -   Ran into `Invalid grant type` error while making `/oauth/token` POST request to the server for the access token. I followed the _user authentication_ part in the docs. Could not find a solution on the forums either. This seemed to be a refresh token error according to most posts.
 -   Explored other Apps such as JWT and OAuth for possible solutions for generating an access token with meeting SDK. Ran into the same problem with the OAuth App.
 -   JWT App worked with zoom API for generating my zoom account ZAK. The generated ZAK could not be used for starting meetings, giving the error `not support to start meeting via tokens`. The JWT code is in `jwt-auth` branch
+
+## Project Status
+
+Zoom SDK cant be used without oauth, so halted
