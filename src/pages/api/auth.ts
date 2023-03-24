@@ -1,6 +1,5 @@
 import axios from "axios";
 import { NextApiRequest, NextApiResponse } from "next";
-import { stringify } from "querystring";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<string>) {
 	if (req.method === "GET") {
@@ -27,7 +26,7 @@ async function getToken(code: string): Promise<string | undefined> {
 		redirect_uri: `${process.env.NEXT_PUBLIC_URL}/testing`,
 	};
 
-	const { data } = await axios.post("https://zoom.us/oauth/token", stringify(body), {
+	const { data } = await axios.post("https://zoom.us/oauth/token", body, {
 		headers: {
 			Authorization: `Basic ${encoded}`,
 			"Content-Type": "application/x-www-form-urlencoded",
